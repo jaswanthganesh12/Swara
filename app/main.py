@@ -1,5 +1,6 @@
 from fastapi import FastAPI 
-from fastapi import Query
+from api.routes.search import router as search_router
+
 
 
 app = FastAPI(
@@ -17,16 +18,5 @@ def home():
         "status": "running"
     }
 
-@app.get("/api/v1/search")
-async def search_tracks(
-    q: str = Query(min_length=1, max_length=100),
-    limit: int=Query(ge=1 , le=25),
+app.include_router(search_router)
 
-):
-
-    return{
-        "query": q,
-        "limit": limit,
-        "message": "search endpoint is ready ",
-        "tracks": [],
-    }
